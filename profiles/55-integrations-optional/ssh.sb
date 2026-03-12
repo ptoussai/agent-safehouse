@@ -39,3 +39,7 @@
     (regex #"^/private/tmp/com\.apple\.launchd\.[^/]+/Listeners$")  ;; launchd-managed SSH_AUTH_SOCK path on macOS.
     (regex #"^/tmp/com\.apple\.launchd\.[^/]+/Listeners$")          ;; symlinked tmp variant of SSH_AUTH_SOCK path.
 )
+(allow network-outbound
+    (regex #"^/private/tmp/com\.apple\.launchd\.[^/]+/Listeners$")  ;; Re-allow Unix socket connect() to SSH agent.
+    (regex #"^/tmp/com\.apple\.launchd\.[^/]+/Listeners$")          ;; symlinked tmp variant.
+)

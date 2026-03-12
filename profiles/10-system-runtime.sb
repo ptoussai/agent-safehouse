@@ -98,9 +98,14 @@
 )
 
 ;; Defense-in-depth: keep launchd-managed per-user listener sockets opt-in by specific integration profiles.
+;; File-level deny blocks stat/discovery; network-outbound deny blocks connect() on the Unix socket.
 (deny file-read* file-write*
     (regex #"^/private/tmp/com\.apple\.launchd\.[^/]+/Listeners$")   ;; Real tmp namespace for launchd listener sockets (SSH agent, pasteboard, etc.).
     (regex #"^/tmp/com\.apple\.launchd\.[^/]+/Listeners$")           ;; Symlinked /tmp view of the same launchd listener sockets.
+)
+(deny network-outbound
+    (regex #"^/private/tmp/com\.apple\.launchd\.[^/]+/Listeners$")
+    (regex #"^/tmp/com\.apple\.launchd\.[^/]+/Listeners$")
 )
 
 ;; Device nodes needed for shell I/O, PTYs, and descriptor plumbing in local LLM agent terminal workflows.
